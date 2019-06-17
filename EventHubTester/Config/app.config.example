@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<EventHubConfig>
+  <EventHubName >mysb</EventHubName>
+  <EventHubConnectionString >sb://mysb.servicebus.windows.net/</EventHubConnectionString>
+  <EventHubKey>MyKey</EventHubKey>
+  <TestMessageBase>SBTESTING</TestMessageBase>
+  <Iterations>100</Iterations>
+</EventHubConfig>
