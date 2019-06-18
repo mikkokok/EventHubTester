@@ -9,13 +9,13 @@ namespace EventHubTester.Helpers
 {
     class ConfigHelper
     {
-        private const string Config = "Config\app.config";
+        private const string Config = "Config\\app.config";
         private EventHubConfig _eventHubConfig;
         
         private void LoadConfig()
         {
             if (!File.Exists(Config))
-                return;
+                throw new Exception("Config file not found!");
 
             using (var fileStream = new FileStream(Config, FileMode.Open))
             {

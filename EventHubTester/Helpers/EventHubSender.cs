@@ -36,9 +36,25 @@ namespace EventHubTester.Helpers
             await _eventHubClient.CloseAsync();
         }
 
-        private Task SendMessagesToEventHub()
+        private async Task SendMessagesToEventHub()
         {
-            throw new NotImplementedException();
+            for (var i = 0; i < _iterations; i++)
+            {
+
+                try
+                {
+                    var message = _messageBody + i;
+                    Console.WriteLine($"Sending message: {message}");
+                    await _eventHubClient.SendAsync(new EventData(Encoding.UTF8.GetBytes(message)));
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine($"{DateTime.Now} > Exception: {exception.Message}");
+                }
+
+                await Task.Delay(10);
+            }
+            Console.WriteLine($"{_iterations} messages sent.");
         }
     }
 }

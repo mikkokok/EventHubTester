@@ -11,37 +11,39 @@ namespace EventHubTester
         static void Main(string[] args)
         {
             _loadedConfig = _configHelper.LoadedEventHubConfig;
-            if (args.Length == 0)
+            switch (args.Length)
             {
-                RunTestSeq(_loadedConfig, _loadedConfig.TestMessageBase, _loadedConfig.Iterations);
-            }
-            else if (args.Length == 1)
-            {
-                try
-                {
-                    
-                }
-                catch 
-                {
+                case 0:
+                    RunTestSeq(_loadedConfig, _loadedConfig.TestMessageBase, _loadedConfig.Iterations);
+                    break;
+                case 1:
+                    RunTestSeq(_loadedConfig, args[0], _loadedConfig.Iterations);
+                    break;
+                case 2:
+                    int.TryParse(args[1], out var tempIter);
+                    RunTestSeq(_loadedConfig, args[0], tempIter);
+                    break;
+                default:
                     SendHelp();
-                }
-                RunTestSeq(_loadedConfig, args[0], _loadedConfig.Iterations);
+                    break;
             }
 
-            SendHelp();
-
+            Console.ReadLine();
         }
 
         private static void RunTestSeq(EventHubConfig config, string messageBody, int iterations)
         {
             var _eventHubListener = new EventHubListener(config);
             var _eventHubSender = new EventHubSender(config, messageBody, iterations);
-
-        }
+            _eventHubListener.StartListening().GetAwaiter().GetResult();
+            _eventHubSender.SendMessages().GetAwaiter().GetResult();
+            }
 
         private static void SendHelp()
         {
-
+            Console.WriteLine("Use me by providing arguments:");
+            Console.WriteLine("1. Messagebase");
+            Console.WriteLine("2. Number of iterations");
         }
     }
 }

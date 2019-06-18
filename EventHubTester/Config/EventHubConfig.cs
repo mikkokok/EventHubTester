@@ -12,7 +12,9 @@ namespace EventHubTester.Config
         [XmlElement]
         public string EventHubConnectionString;
         [XmlElement]
-        public string EventHubKey;
+        public string StorageConnectionString;
+        [XmlElement]
+        public string StorageContainerName;
         [XmlElement]
         public string TestMessageBase;
         [XmlElement]
